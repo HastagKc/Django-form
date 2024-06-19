@@ -1,8 +1,5 @@
-Sure! Below is a comprehensive documentation of the code provided, structured in a clear and understandable format.
-
----
-
 # Django Form 
+---------------
 
 ## Introduction
 In this documentation we will see a step-by-step guide on creating a Django form that includes radio buttons for selecting gender, rendering the form in a template, handling form submission in a view, and setting up URL routing.
