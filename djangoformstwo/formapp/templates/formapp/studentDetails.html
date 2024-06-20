@@ -31,8 +31,6 @@
     <!-- for hidden fileds  -->
     <form action="" method="get">
         {% csrf_token %}
-
-
         {% for field in form.visible_fields %}
         {{field.label_tag}}
         <br>
