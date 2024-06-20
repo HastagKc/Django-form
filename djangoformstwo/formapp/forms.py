@@ -19,3 +19,4 @@ class StudentRegistration(forms.Form):
     )
     age = forms.IntegerField()
     email = forms.EmailField()
+    key = forms.CharField(widget=forms.HiddenInput())

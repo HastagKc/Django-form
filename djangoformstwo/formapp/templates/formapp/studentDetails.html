@@ -7,39 +7,15 @@
     <title>Student Details</title>
     <style>
         body {
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.603);
             color: white;
         }
     </style>
 </head>
 
 <body>
-    <!-- <form action="" method="POST">
-        {{form}}
-        <input type="submit" value="Register">
-    </form> -->
-
+    <!-- this for visible fields  -->
     <!-- <form action="" method="get">
-        <label for="{{ form.name.id_for_label }}">Name:</label>
-        {{ form.name }}
-
-        <label for="{{form.age.id_for_label}}">Age:</label>
-        {{form.age}}
-
-        <label for="{{form.email.id_for_label}}">
-            email
-        </label>
-        {{form.email}}
-
-        <label for="{{form.gender.id_for_label}}">Gender:</label>
-        {{form.stu_gender}}
-
-        <input type="submit" value="Submit">
-
-    </form> -->
-
-
-    <form action="" method="get">
         {% csrf_token %}
 
         {% for field in form %}
@@ -49,6 +25,21 @@
         <br>
         {% endfor %}
 
+    </form> -->
+
+
+    <!-- for hidden fileds  -->
+    <form action="" method="get">
+        {% csrf_token %}
+
+
+        {% for field in form.visible_fields %}
+        {{field.label_tag}}
+        <br>
+        {{field}}
+        <br>
+        {% endfor %}
+        <input type="submit" value="Submit">
     </form>
 </body>
 
