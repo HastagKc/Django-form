@@ -385,4 +385,85 @@ Each method provides different levels of customization and control over the form
 
 
 
+### Example: Manually Rendering a Django Form in HTML
 
+#### 1. Define the Form
+
+Create a form in `forms.py`:
+
+```python
+# forms.py
+from django import forms
+
+class StudentRegistration(forms.Form):
+    name = forms.CharField(max_length=100)
+    age = forms.IntegerField()
+    email = forms.EmailField()
+    stu_gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')])
+```
+
+#### 2. Create the View
+
+Define a view in `views.py` to handle the form:
+
+```python
+# views.py
+from django.shortcuts import render
+from .forms import StudentRegistration
+
+def studentReg(request):
+    """
+    Initializes the StudentRegistration form and renders it.
+    """
+    form = StudentRegistration()
+    return render(request, 'formapp/studentDetails.html', {'form': form})
+```
+
+#### 3. Create the Template
+
+Create the `studentDetails.html` template to manually render the form fields:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+</head>
+
+<body>
+    <h2>Student Registration Form</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.name.id_for_label }}">Name:</label><br>
+            {{ form.name }}
+        </div>
+        <div>
+            <label for="{{ form.age.id_for_label }}">Age:</label><br>
+            {{ form.age }}
+        </div>
+        <div>
+            <label for="{{ form.email.id_for_label }}">Email:</label><br>
+            {{ form.email }}
+        </div>
+        <div>
+            <label for="{{ form.stu_gender.id_for_label }}">Gender:</label><br>
+            {{ form.stu_gender }}
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+
+</html>
+```
+
+### Summary
+
+- **Form Definition**: Define your form in `forms.py`.
+- **View Setup**: Create a view in `views.py` to initialize and render the form.
+- **Template Rendering**: Manually render each form field and label on separate lines in `studentDetails.html` using `<div>` and `<br>` tags for layout control.
