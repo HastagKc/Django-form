@@ -12,10 +12,10 @@ gender = [
 
 class StudentRegistration(forms.Form):
     name = forms.CharField()
-    email = forms.EmailField()
-    age = forms.IntegerField()
     stu_gender = forms.ChoiceField(
         choices=gender,
         required=True,
         widget=forms.RadioSelect
     )
+    age = forms.IntegerField()
+    email = forms.EmailField()

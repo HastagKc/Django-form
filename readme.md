@@ -174,3 +174,61 @@ You can update the template to display form errors if the form submission is inv
 ## Conclusion
 
 This documentation provides a complete guide to creating a Django form with radio buttons, rendering it in a template, handling its submission in a view, and setting up the corresponding URL routing. This basic setup can be extended with additional logic for processing and storing form data, handling form validation errors, and more.
+
+# 2. Manually initialize value, rearranging and manually changing the value of id attribute form view method 
+
+Certainly! Below is the Python code with detailed documentation added to explain each part of the `studentReg` function:
+
+```python
+from django.shortcuts import render
+from .forms import StudentRegistration
+
+def studentReg(request):
+    """
+    This view handles the registration of a student. It initializes a form
+    with default values and customizes various attributes of the form.
+
+    Args:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Rendered HTML page with the form
+    """
+
+    # Create an instance of the StudentRegistration form with initial data
+    fm = StudentRegistration(
+        initial={
+            'name': 'Kshittiz Chaudhary',  # Prepopulate the 'name' field
+            'age': 25,                     # Prepopulate the 'age' field
+            'email': 'chaudharykshittiz950@gmail.com'  # Prepopulate the 'email' field
+        }
+    )
+
+    # Rearrange the fields of the form. This is useful for customizing the 
+    # order in which the fields appear on the template.
+    fm.order_fields(field_order=['name', 'age', 'stu_gender', 'email'])
+
+    # Render the template 'studentDetails.html' with the form instance.
+    # Pass the form instance to the context dictionary with key 'form'.
+    return render(request, 'formapp/studentDetails.html', {'form': fm})
+```
+
+### Explanation:
+
+1. **Import Statements**:
+    - `from django.shortcuts import render`: Imports the `render` function which is used to generate an HttpResponse that contains the rendered text of a template.
+    - `from .forms import StudentRegistration`: Imports the `StudentRegistration` form from the local `forms` module.
+
+2. **Function Definition**:
+    - `def studentReg(request)`: Defines the `studentReg` function which takes an `HttpRequest` object as its argument.
+
+3. **Form Initialization**:
+    - `fm = StudentRegistration(initial={...})`: Creates an instance of the `StudentRegistration` form, prepopulating it with initial data. The `initial` argument is a dictionary that sets default values for the form fields.
+
+4. **Rearranging Form Fields**:
+    - `fm.order_fields(field_order=['name', 'age', 'stu_gender', 'email'])`: Changes the order in which the form fields are displayed. This method takes a list of field names in the desired order.
+
+5. **Rendering the Template**:
+    - `return render(request, 'formapp/studentDetails.html', {'form': fm})`: Renders the `studentDetails.html` template, passing the form instance (`fm`) to the template context. The form can then be accessed in the template using the key `'form'`.
+
+This function effectively sets up a student registration form with prepopulated data and customized field ordering, then renders it within the specified HTML template.
