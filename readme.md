@@ -177,7 +177,7 @@ This documentation provides a complete guide to creating a Django form with radi
 
 # 2. Manually initialize value, rearranging and manually changing the value of id attribute form view method 
 
-Certainly! Below is the Python code with detailed documentation added to explain each part of the `studentReg` function:
+Lets see the below example of Python code with detailed documentation added to explain each part of the `studentReg` function:
 
 ```python
 from django.shortcuts import render
@@ -232,3 +232,157 @@ def studentReg(request):
     - `return render(request, 'formapp/studentDetails.html', {'form': fm})`: Renders the `studentDetails.html` template, passing the form instance (`fm`) to the template context. The form can then be accessed in the template using the key `'form'`.
 
 This function effectively sets up a student registration form with prepopulated data and customized field ordering, then renders it within the specified HTML template.
+
+# 3. Rendering Forms manually in django Templates / html 
+
+### 1. Using Form Fields Directly
+
+**Description**: Render each form field, its label, and errors directly in the template.
+
+```html
+<!-- studentDetails.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+        <div>
+            <label for="{{ form.age.id_for_label }}">Age:</label>
+            {{ form.age }}
+            {{ form.age.errors }}
+        </div>
+        <div>
+            <label for="{{ form.stu_gender.id_for_label }}">Gender:</label>
+            {{ form.stu_gender }}
+            {{ form.stu_gender.errors }}
+        </div>
+        <div>
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</body>
+</html>
+```
+
+### 2. Using Form Field Widgets
+
+**Description**: Render the widgets of each form field, which include the input elements.
+
+```html
+<!-- studentDetails.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name.widget }}
+            {{ form.name.errors }}
+        </div>
+        <div>
+            <label for="{{ form.age.id_for_label }}">Age:</label>
+            {{ form.age.widget }}
+            {{ form.age.errors }}
+        </div>
+        <div>
+            <label for="{{ form.stu_gender.id_for_label }}">Gender:</label>
+            {{ form.stu_gender.widget }}
+            {{ form.stu_gender.errors }}
+        </div>
+        <div>
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email.widget }}
+            {{ form.email.errors }}
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</body>
+</html>
+```
+
+### 3. Using a Custom Form Template
+
+**Description**: Create a custom template tag to render each form field, promoting reuse and clean templates.
+
+#### Step 1: Create a Template Tag
+
+```python
+# templatetags/form_tags.py
+from django import template
+
+register = template.Library()
+
+@register.inclusion_tag('form_field.html')
+def render_field(field):
+    return {'field': field}
+```
+
+#### Step 2: Create the Custom Field Template
+
+```html
+<!-- form_field.html -->
+<div>
+    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+    {{ field }}
+    {% for error in field.errors %}
+        <span class="error">{{ error }}</span>
+    {% endfor %}
+</div>
+```
+
+#### Step 3: Use the Custom Tag in Your Form Template
+
+```html
+<!-- studentDetails.html -->
+{% load form_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% render_field form.name %}
+        {% render_field form.age %}
+        {% render_field form.stu_gender %}
+        {% render_field form.email %}
+        <div>
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</body>
+</html>
+```
+
+Each method provides different levels of customization and control over the form's HTML structure and presentation.
+
+
+
+
