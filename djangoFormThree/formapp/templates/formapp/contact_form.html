@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div class="alert alert-danger">{{ form.name.errors }}</div>
+                {% endif %}
+                <!-- <small class="form-text text-muted">{{ form.name.help_text }}</small> -->
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="alert alert-danger">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.message.label_tag }}
+                {{ form.message }}
+                {% if form.message.errors %}
+                <div class="alert alert-danger">{{ form.message.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group form-check">
+                {{ form.subscribe }}
+                {{ form.subscribe.label_tag }}
+            </div>
+            <div class="form-group">
+                {{ form.preferred_contact_time.label_tag }}
+                {{ form.preferred_contact_time }}
+                {% if form.preferred_contact_time.errors %}
+                <div class="alert alert-danger">{{ form.preferred_contact_time.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.birthday.label_tag }}
+                {{ form.birthday }}
+                {% if form.birthday.errors %}
+                <div class="alert alert-danger">{{ form.birthday.errors }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>
