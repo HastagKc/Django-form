@@ -156,7 +156,71 @@ urlpatterns = [
 ]
 ```
 
-### 6. Create the Success Template
+### 6. Create register template
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRz4G1gf6lZ5QVUVGg9LN7L9/qe2to0/tQcmU8d2"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body class="bg-light">
+    <div class="container mt-5">
+      <h1 class="mb-4">Student Registration</h1>
+      <form
+        action=""
+        method="POST"
+        novalidate
+        class="bg-white p-4 rounded shadow-sm"
+      >
+        {% csrf_token %}
+
+        <!-- Display form errors -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Iterate through form fields -->
+        {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag(attrs={'class': 'form-label'}) }} {{
+          field|add_class:"form-control" }} {% if field.errors %}
+          <div class="text-danger mt-1">
+            {% for error in field.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-4MtfOHmOlDMLK00fQRyVYRAzX+y+mFA6JkOqQ5l5q5Io1pcfFxfrocf2KNW4Q4c7"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+```
+
+### 7. Create the Success Template
 
 Create a simple template to display upon successful registration.
 
@@ -187,16 +251,19 @@ Create a simple template to display upon successful registration.
 With these steps, you have a fully functional student registration form that stores data in the database using a Django model.
 
 # Why validations apply both in form as well as in model ?
- Validators in Django can be applied at both the form and model levels. Each serves a specific purpose, and having them in both places is generally for different types of validation scenarios. Here’s a breakdown of why you might include validators in both forms and models:
+
+Validators in Django can be applied at both the form and model levels. Each serves a specific purpose, and having them in both places is generally for different types of validation scenarios. Here’s a breakdown of why you might include validators in both forms and models:
 
 ### 1. **Model Validators**
 
 **Purpose:**
+
 - **Database Integrity:** Validators on the model level ensure that data stored in the database adheres to certain rules. These validators are enforced whenever data is saved or updated in the database.
 - **Reusability:** Validators on models are useful when you want to ensure data integrity across different parts of your application, such as through Django’s admin interface, custom scripts, or any other method of data entry.
 - **Consistency:** They provide a single point of truth for data validation that is enforced regardless of how or where the data is entered.
 
 **Example in Model:**
+
 ```python
 class Student(models.Model):
     name = models.CharField(
@@ -222,11 +289,13 @@ class Student(models.Model):
 ### 2. **Form Validators**
 
 **Purpose:**
+
 - **User Input Validation:** Validators on the form level ensure that the data entered by users through web forms is valid before being processed or saved. They provide immediate feedback to users about the correctness of their input.
 - **User Experience:** Form validators are helpful for providing real-time validation feedback in the UI, guiding users to correct errors before submitting the form.
 - **Custom Logic:** Form validators can include custom validation logic that’s specific to the form’s use case and might not be suitable for all cases where the model is used.
 
 **Example in Form:**
+
 ```python
 class StudentRegistrationForm(forms.Form):
     name = forms.CharField(
